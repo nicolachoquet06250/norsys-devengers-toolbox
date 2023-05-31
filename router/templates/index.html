@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Page.Title.Tab }}</title>
+    
+    {{range .Page.CssFiles}}
+        <link type="text/css" rel="stylesheet" href="{{.}}" />
+    {{end}}
+
+    {{range .Scripts}}
+        <script src="{{.Script}}"></script>
+    {{end}}
+</head>
+<body>
+    <div class="error"></div>
+    <div class="success"></div>
+    
+    <template id="tool">
+        <div :id="name">
+            <a class="tool" :target="url">
+                <div>
+                    <div>
+                        <img src="{logo}" alt="logo {name}">
+                    </div>
+
+                    <div>
+                        <div>
+                            <h2>{name}</h2>
+                            <h3 :if="editor">par {editor}</h3>
+                        </div>
+
+                        <div class="description" :if="description">
+                            {description}
+                        </div>
+                    </div>
+                </div>
+
+                <section>
+                    <button class="like">
+                        <img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/favorite/default/48px.svg"
+                            alt="icon like vide"
+                            data-icon_state="like">
+                    </button>
+
+                    <button class="menu">
+                        <img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/more_vert/default/48px.svg" 
+                            alt="icon more_vert">
+                    </button>
+                </section>
+
+                <nav>
+                    <ul>
+                        <li>
+                            <a :target="/about?id={id}">
+                                À props de {name}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a :target="/comments?id={id}">
+                                Commentaires
+                            </a>
+                        </li>
+
+                        <li>
+                            <a :target="javascript:writeInClipboard('{name}', '{url}')">
+                                Copier le lien
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </a>
+        </div>
+    </template>
+
+    <h1>
+        <img src="data:image/png;base64,{{ .Logo }}" alt="logo Devengers" />
+    </h1>
+
+    <div class="container"></div>
+</body>
+</html>
