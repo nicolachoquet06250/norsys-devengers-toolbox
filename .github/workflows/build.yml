@@ -47,7 +47,7 @@ jobs:
           goos: linux
           goarch: amd64
           md5sum: false
-          binary_name: norsys-project-base-generator-gui-linux-amd64
+          binary_name: norsys-devengers-toolbox-linux-amd64
           project_path: ./gui
           retry: 3
   release-windows-gui-amd64:
@@ -61,7 +61,7 @@ jobs:
           goos: windows
           goarch: amd64
           md5sum: false
-          binary_name: norsys-project-base-generator-gui-windows-amd64
+          binary_name: norsys-devengers-toolbox-windows-amd64
           project_path: ./gui
           retry: 3
           ldflags: "-H windowsgui"
@@ -76,7 +76,7 @@ jobs:
           goos: darwin
           goarch: amd64
           md5sum: false
-          binary_name: norsys-project-base-generator-gui-darwin-amd64
+          binary_name: norsys-devengers-toolbox-darwin-amd64
           project_path: ./gui
           retry: 3
           ldflags: "-H windowsgui"
@@ -91,7 +91,7 @@ jobs:
           goos: darwin
           goarch: arm64
           md5sum: false
-          binary_name: norsys-project-base-generator-gui-darwin-arm64
+          binary_name: norsys-devengers-toolbox-darwin-arm64
           project_path: ./gui
           retry: 3
           ldflags: "-H windowsgui"
