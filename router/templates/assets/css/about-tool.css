@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #e2e2e2;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+body > * {
+    width: 100%;
+    /* border: 2px solid black; */
+}
+
+body > header,
+body > footer {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding-left: 10px;
+}
+
+body > main {
+    flex: 1;
+    height: calc(100% - 100px);
+
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+body > main > #logo {
+    width: 150px;
+    align-self: center;
+}
+
+body > header > h1 {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body > footer > button {
+    font-size: 18px;
+
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color .4s ease-in-out;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 2px;
+    margin-right: 2px;
+
+    padding: 5px;
+
+    border-radius: 5px;
+    border: 1px solid black;
+
+    outline: none;
+}
+
+body > footer > button:focus {
+    border: 2px solid blue;
+
+    outline: none;
+}
+
+body > footer > button:hover {
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+}
+
+body > footer > button > img {
+    width: 25px;
+    height: 25px;
+}
+
+body > footer > button:hover > img {
+    filter: invert();
+}

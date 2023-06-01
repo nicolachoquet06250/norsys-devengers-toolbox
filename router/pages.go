@@ -25,34 +25,6 @@ var help string
 //go:embed templates/about-tool.html
 var aboutTool string
 
-//go:embed templates/assets/js/init_astilectron.js
-var assetJsInitAstilectron string
-
-//go:embed templates/assets/js/redirect_handlers.js
-var assetJsRedirectHandlers string
-
-//go:embed templates/assets/js/toolbox.js
-var assetJsToolbox string
-
-//go:embed templates/assets/css/toolbox.css
-var assetCssToolbox string
-
-func AssetJsInitAstilectron(w http.ResponseWriter, r *http.Request) {
-	parser.Js(&w, assetJsInitAstilectron)
-}
-
-func AssetJsRedirectHandlers(w http.ResponseWriter, r *http.Request) {
-	parser.Js(&w, assetJsRedirectHandlers)
-}
-
-func AssetJsToolbox(w http.ResponseWriter, r *http.Request) {
-	parser.Js(&w, assetJsToolbox)
-}
-
-func AssetCssToolbox(w http.ResponseWriter, r *http.Request) {
-	parser.Css(&w, assetCssToolbox)
-}
-
 func Home(w http.ResponseWriter, r *http.Request) {
 	result, err := parser.ShowHtmlPage(parser.Page{
 		CurrentPage: "index",
@@ -140,17 +112,19 @@ func AboutTool(w http.ResponseWriter, r *http.Request) {
 			result, _ = parser.ShowHtmlPage(parser.Page{
 				CurrentPage: "about-tool",
 				Template:    aboutTool,
-				CssFiles:    parser.CssFiles{},
-				MetaData:    parser.MetaData{},
+				CssFiles: parser.CssFiles{
+					AssetCssToString(AboutToolCss),
+				},
+				MetaData: parser.MetaData{},
 				Title: parser.Title{
-					Tab:  "About tool",
-					Page: "About tool",
+					Tab:  "À propos de",
+					Page: "À propos de",
 				},
 				Vars: &map[string]interface{}{
-					"Scripts": []struct{ Script string }{
-						{Script: AssetJsToString(InitAstilectron)},
-						{Script: AssetJsToString(RedirectHandlers)},
-					},
+					// "Scripts": []struct{ Script string }{
+					// 	{Script: AssetJsToString(InitAstilectron)},
+					// 	{Script: AssetJsToString(RedirectHandlers)},
+					// },
 					"Tool": tool,
 				},
 			}, "")

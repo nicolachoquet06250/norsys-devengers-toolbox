@@ -23,6 +23,7 @@ const (
 	DestroyLoader           Channel = "DestroyLoader"
 	ShowAlert               Channel = "ShowAlert"
 	Clipboard               Channel = "Clipboard"
+	OpenLink                Channel = "OpenLink"
 )
 
 type JsonMessageType struct {

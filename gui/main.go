@@ -17,6 +17,8 @@ import (
 	"github.com/atotto/clipboard"
 )
 
+var OpenedTools = map[string]*astilectron.Window{}
+
 func Process() {
 	logger := log.New(GetLoggerWriter(), log.Prefix(), log.Flags())
 
@@ -56,7 +58,7 @@ func Process() {
 		}
 	}
 
-	err = app.NewMenu([]*astilectron.MenuItemOptions{
+	err = Window.NewMenu([]*astilectron.MenuItemOptions{
 		{
 			Label: astikit.StrPtr("Toollist"),
 			OnClick: func(e astilectron.Event) (deleteListener bool) {
@@ -95,6 +97,7 @@ func Process() {
 			},
 		},
 	}).Create()
+
 	if err != nil {
 		logger.Fatal(fmt.Errorf("fail to create menu %s", err))
 	}
@@ -147,11 +150,62 @@ func Process() {
 		case string(decoder.Clipboard):
 			err := clipboard.WriteAll(jsonMessage.Data["text"])
 			if err != nil {
-				println("erreur")
+				println("erreur copie " + jsonMessage.Data["text"])
 			}
 			Window.SendMessage(decoder.NewMessage(decoder.Clipboard, map[string]string{
 				"success": "true",
 			}))
+		case string(decoder.OpenLink):
+			name := jsonMessage.Data["name"]
+
+			if OpenedTools[name] == nil {
+				OpenedTools[name] = window.CreateWindow(
+					app,
+					logger,
+					jsonMessage.Data["url"],
+					&astilectron.WindowOptions{
+						Center:    astikit.BoolPtr(true),
+						Height:    astikit.IntPtr(500),
+						Width:     astikit.IntPtr(450),
+						Icon:      astikit.StrPtr(history.GetIconPath("light")),
+						Show:      astikit.BoolPtr(false),
+						Resizable: astikit.BoolPtr(true),
+					},
+					name,
+				)
+				err := OpenedTools[name].Show()
+				logger.Println("show " + name + " Window")
+				if err != nil {
+					logger.Fatal(fmt.Errorf(name + " Window can't be showed"))
+				}
+
+				err = OpenedTools[name].NewMenu([]*astilectron.MenuItemOptions{
+					{
+						Label: astikit.StrPtr("À props"),
+						SubMenu: []*astilectron.MenuItemOptions{
+							{
+								Label: astikit.StrPtr("Copier le lien"),
+								OnClick: func(e astilectron.Event) (deleteListener bool) {
+									err := clipboard.WriteAll(jsonMessage.Data["url"])
+									if err != nil {
+										println("erreur copie " + jsonMessage.Data["url"])
+									}
+									return
+								},
+								Accelerator: astilectron.NewAccelerator("Control", "Shift", "C"),
+							},
+							{
+								Label:       astikit.StrPtr("Fermer"),
+								Role:        astilectron.MenuItemRoleClose,
+								Accelerator: astilectron.NewAccelerator("Control", "Q"),
+							},
+						},
+					},
+				}).Create()
+				if err != nil {
+					logger.Fatal(fmt.Errorf("fail to create menu %s", err))
+				}
+			}
 		}
 
 		return

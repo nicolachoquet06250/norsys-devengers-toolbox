@@ -33,19 +33,56 @@ function createToolEl(tool) {
     toolEl.querySelector('div').id = id.toLowerCase().replace(/[ '".]/g, '-');
     toolEl.querySelector('div').removeAttribute(':id');
 
-    const target = tool[toolEl.querySelector('.tool').getAttribute(':target')];
-    toolEl.querySelector('.tool').setAttribute('href', target);
-    toolEl.querySelector('.tool').setAttribute('target', '_blank');
-    toolEl.querySelector('.tool').dataset.href = target;
+    // const oldLinkHref = toolEl.querySelector('.tool').getAttribute('href');
+    // const matches = match(regex, oldLinkHref);
+
+    // let href = oldLinkHref;
+    // for (const match of matches) {
+    //     alert(match[0])
+    //     alert(tool[match[1]])
+
+    //     href.replace(
+    //         match[0], tool[match[1]]
+    //     );
+    // }
+
+    // alert(href)
+
+    // toolEl.querySelector('.tool').setAttribute('href', href);
+    // toolEl.querySelector('.tool').setAttribute('target', '_blank');
+    // toolEl.querySelector('.tool').dataset.href = href;
+
+    const oldLinkHref = toolEl.querySelector('.tool').getAttribute(':target');
+    let linkHref = oldLinkHref;
+    const matches = match(regex, linkHref);
+    for (const match of matches) {
+        if (match[0]) {
+            linkHref = linkHref.replace(
+                match[0], tool[match[1]]
+            );
+        }
+    }
     toolEl.querySelector('.tool').removeAttribute(':target');
+    toolEl.querySelector('.tool').setAttribute('href', linkHref);
+
     toolEl.querySelector('.tool').addEventListener('click', e => {
-        if (e.target.tagName === 'IMG' || e.target.tagName === 'BUTTON') {
+        if (
+            (
+                e.target.tagName === 'IMG' && 
+                e.target.parentElement.tagName === 'BUTTON'
+            ) || 
+            e.target.tagName === 'BUTTON'
+        ) {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
+
             return;
         }
-    })
+
+        alert(href);
+        toolEl.querySelector('.tool').click();
+    });
 
     const oldImageSrc = toolEl.querySelector('div > img').getAttribute('src');
     let _match = match(regex, oldImageSrc).length === 1 
@@ -103,7 +140,7 @@ function createToolEl(tool) {
         let linkHref = oldLinkHref;
         matches = match(regex, linkHref);
         for (const match of matches) {
-            if (_match[0]) {
+            if (match[0]) {
                 linkHref = linkHref.replace(
                     match[0], tool[match[1]]
                 );

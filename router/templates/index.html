@@ -20,7 +20,7 @@
     
     <template id="tool">
         <div :id="name">
-            <a class="tool" :target="url">
+            <a class="tool" :target="javascript:sendMessage({ channel: 'OpenLink', data: { url: '{url}', name: '{name}' } })">
                 <div>
                     <div>
                         <img src="{logo}" alt="logo {name}">

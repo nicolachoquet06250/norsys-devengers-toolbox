@@ -4,14 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À props de {{ .Tool.Name }}</title>
+    <title>{{ .Page.Title.Tab }} {{ .Tool.Name }}</title>
+    
+    {{range .Page.CssFiles}}
+        <link type="text/css" rel="stylesheet" href="{{.}}" />
+    {{end}}
+
+    {{range .Scripts}}
+        <script src="{{.Script}}"></script>
+    {{end}}
+
+    <script>
+        window.addEventListener('load', () => {
+            document.querySelector('#logo').setAttribute('src', document.querySelector('input[type="hidden"]').value);
+            // [...document.querySelectorAll('[data]')].map(el => {
+            //     for (const key in el.dataset) {
+            //         alert(key);
+            //         alert(el.dataset[key]);
+            //     }
+            // });
+        }); 
+    </script>
 </head>
 <body>
-    <h1>About tool {{ .Tool.Name }}</h1>
+    <header>
+        <h1>{{ .Page.Title.Page }} {{ .Tool.Name }}</h1>
+    </header>
 
-    <p>
-        {{ .Tool.Description }}
-    </p>
-    <button onclick="history.back()">back</button>
+    <main>
+        <input type="hidden" value="{{ .Tool.Logo }}">
+        <img id="logo">
+        
+        <p>
+            {{ .Tool.Description }}
+        </p>
+    </main>
+
+    <footer>
+        <button onclick="history.back()">
+            <img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/undo/default/48px.svg" alt="<-" />
+            Retour
+        </button>
+    </footer>
 </body>
 </html>
